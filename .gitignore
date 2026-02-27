@@ -38,3 +38,6 @@ out/
 
 ### sdk ###
 /.sdkmanrc
+
+### yaml ###
+src/main/resources/application-local.yaml
