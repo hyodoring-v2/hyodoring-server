@@ -1,7 +1,7 @@
 package com.v2.hyodoring.account.infrastructure.jpa.auth.domain;
 
 import com.v2.hyodoring.account.core.auth.domain.AuthProvider;
-import com.v2.hyodoring.account.core.shared.domain.Environment;
+import com.v2.hyodoring.account.core.shared.domain.Env;
 import com.v2.hyodoring.account.infrastructure.jpa.base.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,7 +29,7 @@ public class AuthProviderEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Environment env;
+    private Env env;
 
     @Column(columnDefinition = "text", nullable = false)
     private String clientId;
@@ -37,7 +37,7 @@ public class AuthProviderEntity extends BaseEntity {
     @Column(columnDefinition = "text", nullable = false)
     private String redirectUri;
 
-    public static AuthProviderEntity of(AuthProvider name, Environment env, String clientId, String redirectUri) {
+    public static AuthProviderEntity of(AuthProvider name, Env env, String clientId, String redirectUri) {
         Assert.notNull(name, "name can not be null");
         Assert.notNull(env, "env can not be null");
         Assert.hasText(clientId, "clientId must not be empty");

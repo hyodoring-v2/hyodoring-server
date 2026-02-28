@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 @Entity(name = "account_auth")
 @Table(
         uniqueConstraints = {
-                @UniqueConstraint(name = "uk_account_auth", columnNames = {"account_id", "auth_id", "auth_type"})
+                @UniqueConstraint(name = "uk_account_auth", columnNames = {"account_id", "auth_type"})
         }
 )
 @Builder(access = lombok.AccessLevel.PRIVATE)

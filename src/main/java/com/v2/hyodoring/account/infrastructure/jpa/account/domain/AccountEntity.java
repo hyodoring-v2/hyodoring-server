@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.util.Assert;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Entity(name = "account")
 @Builder(access = AccessLevel.PRIVATE)
@@ -19,10 +21,13 @@ public class AccountEntity extends BaseEntity {
     @Column(columnDefinition = "text", nullable = false)
     private String nickname;
 
-    public static AccountEntity of(String nickname) {
-        Assert.hasText(nickname, "nickname must not be empty");
-        return AccountEntity.builder()
-                .nickname(nickname)
-                .build();
+    @Column(nullable = false)
+    private Short score = 50;
+
+    @Column
+    private LocalDateTime inactiveAt;
+
+    public boolean isInactive() {
+        return inactiveAt != null;
     }
 }
