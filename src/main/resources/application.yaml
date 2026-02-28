@@ -21,3 +21,6 @@ spring:
   logging:
     level:
       root: WARN
+
+springdoc:
+  dev: ${DEV_SERVER_URL}
