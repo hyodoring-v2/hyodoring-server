@@ -5,7 +5,7 @@ import com.v2.hyodoring.account.application.auth.domain.exception.AuthErrorRespo
 import com.v2.hyodoring.account.application.auth.service.AuthQueryService;
 import com.v2.hyodoring.account.core.auth.domain.Provider;
 import com.v2.hyodoring.account.core.auth.domain.OIDCPublicKey;
-import com.v2.hyodoring.account.infrastructure.feign.auth.OIDCPayload;
+import com.v2.hyodoring.account.infrastructure.feign.auth.domain.OIDCPayload;
 import com.v2.hyodoring.account.infrastructure.jpa.auth.domain.AuthProviderEntity;
 import lombok.RequiredArgsConstructor;
 

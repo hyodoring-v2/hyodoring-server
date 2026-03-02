@@ -11,7 +11,7 @@ import com.v2.hyodoring.account.core.auth.domain.AccountOAuth;
 import com.v2.hyodoring.account.core.auth.domain.AuthProvider;
 import com.v2.hyodoring.account.core.auth.domain.Provider;
 import com.v2.hyodoring.account.core.role.AccountRoleType;
-import com.v2.hyodoring.account.infrastructure.feign.auth.OIDCPayload;
+import com.v2.hyodoring.account.infrastructure.feign.auth.domain.OIDCPayload;
 import com.v2.hyodoring.family.application.family.service.FamilyCommandService;
 import com.v2.hyodoring.family.application.family.service.FamilyQueryService;
 import com.v2.hyodoring.family.core.family.Family;

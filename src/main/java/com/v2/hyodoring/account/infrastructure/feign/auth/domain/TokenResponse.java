@@ -1,4 +1,4 @@
-package com.v2.hyodoring.account.infrastructure.feign.auth;
+package com.v2.hyodoring.account.infrastructure.feign.auth.domain;
 
 import lombok.Getter;
 

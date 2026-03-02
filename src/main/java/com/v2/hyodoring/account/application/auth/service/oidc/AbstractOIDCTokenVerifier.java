@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.v2.hyodoring.account.core.auth.domain.Provider;
-import com.v2.hyodoring.account.infrastructure.feign.auth.OIDCPayload;
+import com.v2.hyodoring.account.infrastructure.feign.auth.domain.OIDCPayload;
 import com.v2.hyodoring.account.core.auth.domain.OIDCPublicKey;
 import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.stereotype.Component;

@@ -2,7 +2,7 @@ package com.v2.hyodoring.account.application.auth.service.oidc;
 
 import com.v2.hyodoring.account.core.auth.domain.Provider;
 import com.v2.hyodoring.account.core.auth.domain.OIDCPublicKey;
-import com.v2.hyodoring.account.infrastructure.feign.auth.OIDCPayload;
+import com.v2.hyodoring.account.infrastructure.feign.auth.domain.OIDCPayload;
 
 import java.util.List;
 

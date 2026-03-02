@@ -1,8 +1,8 @@
 package com.v2.hyodoring.account.infrastructure.feign.auth.kakao;
 
 import com.v2.hyodoring.account.core.config.FeignConfig;
-import com.v2.hyodoring.account.infrastructure.feign.auth.OIDCPublicKeyResponse;
-import com.v2.hyodoring.account.infrastructure.feign.auth.TokenResponse;
+import com.v2.hyodoring.account.infrastructure.feign.auth.domain.OIDCPublicKeyResponse;
+import com.v2.hyodoring.account.infrastructure.feign.auth.domain.TokenResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
