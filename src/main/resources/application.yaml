@@ -12,15 +12,29 @@ spring:
       max-lifetime: 1800000
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         jdbc:
           time_zone: UTC
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: full
+
   logging:
     level:
       root: WARN
 
 springdoc:
   dev: ${DEV_SERVER_URL}
+
+feign:
+  client:
+    kakao:
+      url: ${KAKAO_BASE_URL}
