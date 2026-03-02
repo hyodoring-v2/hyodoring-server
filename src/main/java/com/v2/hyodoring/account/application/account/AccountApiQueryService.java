@@ -1,6 +1,6 @@
 package com.v2.hyodoring.account.application.account;
 
-import com.v2.hyodoring.account.application.auth.AuthQueryService;
+import com.v2.hyodoring.account.application.auth.service.AuthQueryService;
 import com.v2.hyodoring.account.core.auth.domain.AccountOAuthData;
 import com.v2.hyodoring.account.infrastructure.jpa.account.domain.AccountEntity;
 import com.v2.hyodoring.account.presentation.account.domain.AccountProfileResponse;

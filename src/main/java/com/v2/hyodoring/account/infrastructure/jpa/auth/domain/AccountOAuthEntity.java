@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Entity(name = "account_oauth")
 @Table(
         uniqueConstraints = {
-                @UniqueConstraint(name = "uk_account_provider", columnNames = {"account_id", "provider_id"})
+                @UniqueConstraint(name = "uk_account_provider", columnNames = {"account_id", "provider_id"}),
+                @UniqueConstraint(name = "uk_provider_subject", columnNames = {"provider_id", "subject"})
         })
 @Builder(access = lombok.AccessLevel.PRIVATE)
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
@@ -28,6 +29,9 @@ public class AccountOAuthEntity extends BaseEntity {
 
     @Column(nullable = false)
     private Long providerId;
+
+    @Column(nullable = false)
+    private String subject;
 
     @Column(columnDefinition = "text")
     private String accessToken;

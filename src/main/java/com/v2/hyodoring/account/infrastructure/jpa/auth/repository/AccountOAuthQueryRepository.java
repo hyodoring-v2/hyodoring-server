@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface AccountOAuthQueryRepository extends JpaRepository<AccountOAuthEntity,Long> {
     Optional<AccountOAuthEntity> findByAccountIdAndProviderId(Long accountId, Long providerId);
     List<AccountOAuthEntity> findAllByAccountId(Long accountId);
+    Optional<AccountOAuthEntity> findByProviderIdAndSubject(Long providerId, String subject);
 }

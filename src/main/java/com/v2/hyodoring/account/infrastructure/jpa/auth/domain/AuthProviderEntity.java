@@ -35,18 +35,8 @@ public class AuthProviderEntity extends BaseEntity {
     private String clientId;
 
     @Column(columnDefinition = "text", nullable = false)
-    private String redirectUri;
+    private String clientSecret;
 
-    public static AuthProviderEntity of(AuthProvider name, Env env, String clientId, String redirectUri) {
-        Assert.notNull(name, "name can not be null");
-        Assert.notNull(env, "env can not be null");
-        Assert.hasText(clientId, "clientId must not be empty");
-        Assert.hasText(redirectUri, "redirectUri must not be empty");
-        return AuthProviderEntity.builder()
-                .name(name)
-                .env(env)
-                .clientId(clientId)
-                .redirectUri(redirectUri)
-                .build();
-    }
+    @Column(columnDefinition = "text", nullable = false)
+    private String redirectUri;
 }
