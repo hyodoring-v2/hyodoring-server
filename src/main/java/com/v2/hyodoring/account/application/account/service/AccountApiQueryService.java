@@ -3,7 +3,7 @@ package com.v2.hyodoring.account.application.account.service;
 import com.v2.hyodoring.account.application.auth.service.AuthQueryService;
 import com.v2.hyodoring.account.core.account.domain.Account;
 import com.v2.hyodoring.account.core.auth.domain.AccountOAuthData;
-import com.v2.hyodoring.account.presentation.account.domain.AccountProfileResponse;
+import com.v2.hyodoring.account.application.account.domain.AccountProfileResponse;
 import com.v2.hyodoring.family.core.family.Level;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

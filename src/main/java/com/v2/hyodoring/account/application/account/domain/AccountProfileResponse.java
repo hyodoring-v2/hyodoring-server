@@ -1,4 +1,4 @@
-package com.v2.hyodoring.account.presentation.account.domain;
+package com.v2.hyodoring.account.application.account.domain;
 
 import com.v2.hyodoring.account.core.auth.domain.Provider;
 import com.v2.hyodoring.family.application.family.FamilyRoleData;
