@@ -1,0 +1,36 @@
+package com.v2.hyodoring.family.infrastructure.jpa.family.domain;
+
+import com.v2.hyodoring.family.infrastructure.jpa.base.domain.BaseEntity;
+import jakarta.persistence.*;
+import lombok.*;
+
+@Getter
+@Entity(name = "family_account")
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"family_id", "account_id"}))
+@Builder(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class FamilyAccountEntity extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
+    private Long id;
+
+    @Column(nullable = false)
+    private Long familyId;
+
+    @Column(nullable = false)
+    private Long accountId;
+
+    @Column(nullable = false)
+    private Integer score;
+
+    public static FamilyAccountEntity of(long familyId, long accountId, int score) {
+        return FamilyAccountEntity.builder()
+                .familyId(familyId)
+                .accountId(accountId)
+                .score(score)
+                .build();
+    }
+}
