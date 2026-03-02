@@ -1,9 +1,9 @@
-package com.v2.hyodoring.account.application.auth.verifier;
+package com.v2.hyodoring.account.application.auth.service.oidc;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.v2.hyodoring.account.core.auth.domain.AuthProvider;
+import com.v2.hyodoring.account.core.auth.domain.Provider;
 import com.v2.hyodoring.account.infrastructure.feign.auth.OIDCPayload;
 import com.v2.hyodoring.account.core.auth.domain.OIDCPublicKey;
 import org.antlr.v4.runtime.misc.Pair;
@@ -58,9 +58,11 @@ public abstract class AbstractOIDCTokenVerifier implements OIDCTokenVerifier {
         }
     }
 
-    public abstract boolean supports(AuthProvider provider);
+    public abstract boolean supports(Provider provider);
 
-    protected Pair<String, String> extractKidAndAlg(String idToken) throws JsonProcessingException {
+    protected abstract OIDCPayload verifyAndExtractPayload(String idToken, PublicKey publicKey);
+
+    private Pair<String, String> extractKidAndAlg(String idToken) throws JsonProcessingException {
         String headerPart = idToken.split("\\.")[0];
         byte[] decodedBytes = Base64.getUrlDecoder().decode(headerPart);
 
@@ -72,7 +74,7 @@ public abstract class AbstractOIDCTokenVerifier implements OIDCTokenVerifier {
         return new Pair<>(kid, alg);
     }
 
-    protected PublicKey extractPublicKey(OIDCPublicKey publicKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    private PublicKey extractPublicKey(OIDCPublicKey publicKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         KeySpec keySpec = new RSAPublicKeySpec(
                 new BigInteger(1, Base64.getUrlDecoder().decode(publicKey.getN())),
@@ -80,6 +82,4 @@ public abstract class AbstractOIDCTokenVerifier implements OIDCTokenVerifier {
         );
         return keyFactory.generatePublic(keySpec);
     }
-
-    protected abstract OIDCPayload verifyAndExtractPayload(String idToken, PublicKey publicKey);
 }

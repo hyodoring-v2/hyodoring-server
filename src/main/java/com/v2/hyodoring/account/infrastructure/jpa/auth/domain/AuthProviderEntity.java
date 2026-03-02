@@ -1,11 +1,11 @@
 package com.v2.hyodoring.account.infrastructure.jpa.auth.domain;
 
 import com.v2.hyodoring.account.core.auth.domain.AuthProvider;
+import com.v2.hyodoring.account.core.auth.domain.Provider;
 import com.v2.hyodoring.account.core.shared.domain.Env;
 import com.v2.hyodoring.account.infrastructure.jpa.base.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.util.Assert;
 
 @Getter
 @Entity(name = "auth_provider")
@@ -25,7 +25,7 @@ public class AuthProviderEntity extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private AuthProvider name;
+    private Provider name;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -39,4 +39,8 @@ public class AuthProviderEntity extends BaseEntity {
 
     @Column(columnDefinition = "text", nullable = false)
     private String redirectUri;
+
+    public AuthProvider toDomain() {
+        return AuthProvider.of(id, name, env);
+    }
 }

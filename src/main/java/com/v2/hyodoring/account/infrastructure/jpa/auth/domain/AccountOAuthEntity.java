@@ -1,5 +1,6 @@
 package com.v2.hyodoring.account.infrastructure.jpa.auth.domain;
 
+import com.v2.hyodoring.account.core.auth.domain.AccountOAuth;
 import com.v2.hyodoring.account.infrastructure.jpa.base.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -42,15 +43,19 @@ public class AccountOAuthEntity extends BaseEntity {
     @Column(columnDefinition = "text")
     private String email;
 
-    public static AccountOAuthEntity of(long accountId, long providerId,
-                                        String accessToken, String refreshToken,
-                                        String email) {
+    public static AccountOAuthEntity from(AccountOAuth accountOAuth) {
         return AccountOAuthEntity.builder()
-                .accountId(accountId)
-                .providerId(providerId)
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .email(email)
+                .accountId(accountOAuth.getAccountId())
+                .providerId(accountOAuth.getProviderId())
+                .subject(accountOAuth.getSubject())
+                .accessToken(accountOAuth.getAccessToken())
+                .refreshToken(accountOAuth.getRefreshToken())
+                .email(accountOAuth.getEmail())
                 .build();
+    }
+
+    public AccountOAuth toDomain() {
+        return AccountOAuth.of(id, accountId, providerId, subject,
+                accessToken, refreshToken, email, getCreatedAt(), getUpdatedAt());
     }
 }

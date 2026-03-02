@@ -1,6 +1,6 @@
-package com.v2.hyodoring.account.application.auth.verifier;
+package com.v2.hyodoring.account.application.auth.service.oidc;
 
-import com.v2.hyodoring.account.core.auth.domain.AuthProvider;
+import com.v2.hyodoring.account.core.auth.domain.Provider;
 import com.v2.hyodoring.account.infrastructure.feign.auth.OIDCPayload;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,8 +12,8 @@ import java.security.PublicKey;
 public final class KakaoOIDCTokenVerifier extends AbstractOIDCTokenVerifier {
 
     @Override
-    public boolean supports(AuthProvider provider) {
-        return AuthProvider.KAKAO.equals(provider);
+    public boolean supports(Provider provider) {
+        return Provider.KAKAO.equals(provider);
     }
 
     @Override

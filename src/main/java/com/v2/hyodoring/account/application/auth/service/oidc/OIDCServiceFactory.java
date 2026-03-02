@@ -1,6 +1,6 @@
-package com.v2.hyodoring.account.application.auth.service;
+package com.v2.hyodoring.account.application.auth.service.oidc;
 
-import com.v2.hyodoring.account.core.auth.domain.AuthProvider;
+import com.v2.hyodoring.account.core.auth.domain.Provider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public class OIDCServiceFactory {
     private final List<OIDCService> oidcServices;
 
-    public OIDCService getOIDCService(AuthProvider provider) {
+    public OIDCService getOIDCService(Provider provider) {
         return oidcServices.stream()
                 .filter(service -> service.supports(provider))
                 .findFirst()

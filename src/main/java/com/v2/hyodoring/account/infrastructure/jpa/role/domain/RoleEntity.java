@@ -1,6 +1,11 @@
 package com.v2.hyodoring.account.infrastructure.jpa.role.domain;
 
+import com.v2.hyodoring.account.core.account.domain.AccountRole;
+import com.v2.hyodoring.account.core.role.AccountRoleType;
 import com.v2.hyodoring.account.core.role.GranteeType;
+import com.v2.hyodoring.account.infrastructure.jpa.base.domain.BaseEntity;
+import com.v2.hyodoring.family.core.family.FamilyRole;
+import com.v2.hyodoring.family.core.role.FamilyRoleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +23,7 @@ import org.springframework.util.Assert;
 @Builder(access = lombok.AccessLevel.PRIVATE)
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @AllArgsConstructor(access = lombok.AccessLevel.PRIVATE)
-public class RoleEntity {
+public class RoleEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,5 +48,35 @@ public class RoleEntity {
                 .granteeType(granteeType)
                 .name(name)
                 .build();
+    }
+
+    public static RoleEntity from(AccountRole accountRole) {
+        return RoleEntity.builder()
+                .granteeId(accountRole.getAccountId())
+                .granteeType(GranteeType.ACCOUNT)
+                .name(accountRole.getName().toString())
+                .build();
+    }
+
+    public static RoleEntity from(FamilyRole familyRole) {
+        return RoleEntity.builder()
+                .granteeId(familyRole.getFamilyId())
+                .granteeType(GranteeType.FAMILY)
+                .name(familyRole.getName().toString())
+                .build();
+    }
+
+    public FamilyRole toFamilyRole() {
+        if (!GranteeType.FAMILY.equals(granteeType)) {
+            throw new IllegalArgumentException("granteeType must be family");
+        }
+        return FamilyRole.of(id, granteeId, FamilyRoleType.valueOf(name), getCreatedAt(), getUpdatedAt());
+    }
+
+    public AccountRole toAccountRole() {
+        if (!GranteeType.ACCOUNT.equals(granteeType)) {
+            throw new IllegalArgumentException("granteeType must be account");
+        }
+        return AccountRole.of(id, granteeId, AccountRoleType.valueOf(name), getCreatedAt(), getUpdatedAt());
     }
 }

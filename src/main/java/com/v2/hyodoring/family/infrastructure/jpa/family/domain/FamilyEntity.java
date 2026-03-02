@@ -1,9 +1,10 @@
 package com.v2.hyodoring.family.infrastructure.jpa.family.domain;
 
+import com.v2.hyodoring.family.core.family.Family;
 import com.v2.hyodoring.family.infrastructure.jpa.base.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 @Getter
 @Entity(name = "family")
@@ -20,15 +21,23 @@ public class FamilyEntity extends BaseEntity {
     @Column(columnDefinition = "text", nullable = false)
     private String name;
 
-    @Column(columnDefinition = "text", nullable = false)
+    @Column(unique = true, columnDefinition = "text", nullable = false)
     private String code;
 
-    public static FamilyEntity of(String name, String code) {
-        Assert.hasText(name, "name must not be empty");
-        Assert.hasText(code, "code must not be empty");
+    public static FamilyEntity from(Family family) {
+        String familyName;
+        if (StringUtils.hasText(family.getName())) {
+            familyName = family.getName();
+        } else {
+            familyName = "행복한 가족";
+        }
         return FamilyEntity.builder()
-                .name(name)
-                .code(code)
+                .name(familyName)
+                .code(family.getCode())
                 .build();
+    }
+
+    public Family toDomain() {
+        return Family.of(id, name, code, getCreatedAt(), getUpdatedAt());
     }
 }

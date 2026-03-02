@@ -1,7 +1,7 @@
-package com.v2.hyodoring.account.application.auth.service;
+package com.v2.hyodoring.account.application.auth.service.oidc;
 
-import com.v2.hyodoring.account.application.auth.verifier.OIDCTokenVerifier;
-import com.v2.hyodoring.account.core.auth.domain.AuthProvider;
+import com.v2.hyodoring.account.application.auth.service.AuthQueryService;
+import com.v2.hyodoring.account.core.auth.domain.Provider;
 import com.v2.hyodoring.account.core.shared.provider.EnvProvider;
 import com.v2.hyodoring.account.core.auth.domain.OIDCPublicKey;
 import com.v2.hyodoring.account.infrastructure.feign.auth.kakao.KakaoFeignClient;
@@ -40,15 +40,15 @@ public class KakaoOIDCService extends AbstractOIDCService {
     }
 
     @Override
-    public boolean supports(AuthProvider provider) {
-        return AuthProvider.KAKAO.equals(provider);
+    public boolean supports(Provider provider) {
+        return Provider.KAKAO.equals(provider);
     }
 
     @Override
     protected List<OIDCPublicKey> getPublicKeys() {
         // 현재 환경의 카카오 인증 제공자 ID 조회
         Long providerId = authProviderQueryRepository
-                .findByNameAndEnv(AuthProvider.KAKAO, envProvider.getActiveProfile())
+                .findByNameAndEnv(Provider.KAKAO, envProvider.getActiveProfile())
                 .orElseThrow(() -> new IllegalStateException("Kakao Auth Provider not found for environment: " + envProvider.getActiveProfile()))
                 .getId();
 
@@ -70,7 +70,7 @@ public class KakaoOIDCService extends AbstractOIDCService {
     @Override
     protected AuthProviderEntity getAuthProvider() {
         return authProviderQueryRepository
-                .findByNameAndEnv(AuthProvider.KAKAO, envProvider.getActiveProfile())
+                .findByNameAndEnv(Provider.KAKAO, envProvider.getActiveProfile())
                 .orElseThrow(() -> new IllegalStateException("Kakao Auth Provider not found for environment: " + envProvider.getActiveProfile()));
     }
 }

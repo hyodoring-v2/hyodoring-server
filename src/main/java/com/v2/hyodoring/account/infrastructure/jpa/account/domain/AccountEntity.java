@@ -1,9 +1,9 @@
 package com.v2.hyodoring.account.infrastructure.jpa.account.domain;
 
+import com.v2.hyodoring.account.core.account.domain.Account;
 import com.v2.hyodoring.account.infrastructure.jpa.base.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 
@@ -21,13 +21,20 @@ public class AccountEntity extends BaseEntity {
     @Column(columnDefinition = "text", nullable = false)
     private String nickname;
 
-    @Column(nullable = false)
-    private Short score = 50;
-
     @Column
     private LocalDateTime inactiveAt;
 
     public boolean isInactive() {
         return inactiveAt != null;
+    }
+
+    public static AccountEntity from(Account account) {
+        return AccountEntity.builder()
+                .nickname(account.getNickname())
+                .build();
+    }
+
+    public Account toDomain() {
+        return Account.of(id, nickname, getCreatedAt(), getUpdatedAt(), inactiveAt);
     }
 }

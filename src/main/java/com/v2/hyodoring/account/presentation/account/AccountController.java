@@ -1,10 +1,10 @@
 package com.v2.hyodoring.account.presentation.account;
 
-import com.v2.hyodoring.account.application.account.AccountApiQueryService;
+import com.v2.hyodoring.account.application.account.service.AccountApiQueryService;
 import com.v2.hyodoring.account.presentation.account.docs.AccountApiDocs;
 import com.v2.hyodoring.account.presentation.account.domain.AccountProfileResponse;
-import com.v2.hyodoring.account.presentation.base.CustomResponse;
-import com.v2.hyodoring.account.presentation.base.BaseSuccessResponse;
+import com.v2.hyodoring.account.application.base.CustomResponse;
+import com.v2.hyodoring.account.application.base.BaseSuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

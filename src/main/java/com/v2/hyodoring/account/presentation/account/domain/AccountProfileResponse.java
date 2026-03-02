@@ -1,6 +1,6 @@
 package com.v2.hyodoring.account.presentation.account.domain;
 
-import com.v2.hyodoring.account.core.auth.domain.AuthProvider;
+import com.v2.hyodoring.account.core.auth.domain.Provider;
 import com.v2.hyodoring.family.application.family.FamilyRoleData;
 import com.v2.hyodoring.family.core.family.Level;
 import jakarta.annotation.Nullable;
@@ -15,7 +15,7 @@ public class AccountProfileResponse {
     private final String nickname;
     private final Level level;
     private final LocalDateTime createdAt;
-    private final AuthProvider authProvider;
+    private final Provider provider;
     @Nullable
     private final String email;
     private final List<FamilyRoleData> family;
@@ -24,19 +24,19 @@ public class AccountProfileResponse {
             String nickname,
             Level level,
             LocalDateTime createdAt,
-            AuthProvider authProvider,
+            Provider provider,
             @Nullable String email,
             List<FamilyRoleData> family
     ) {
         Assert.hasText(nickname, "nickname must not be empty");
         Assert.notNull(level, "level must not be null");
         Assert.notNull(createdAt, "createdAt must not be null");
-        Assert.notNull(authProvider, "authProvider must not be null");
+        Assert.notNull(provider, "authProvider must not be null");
         Assert.notNull(family, "family must not be null");
         this.nickname = nickname;
         this.level = level;
         this.createdAt = createdAt;
-        this.authProvider = authProvider;
+        this.provider = provider;
         this.email = email;
         this.family = family;
     }
@@ -45,11 +45,11 @@ public class AccountProfileResponse {
             String nickname,
             Level level,
             LocalDateTime createdAt,
-            AuthProvider authProvider,
+            Provider provider,
             @Nullable String email,
             List<FamilyRoleData> family
     ) {
-        return new AccountProfileResponse(nickname, level, createdAt, authProvider, email, family);
+        return new AccountProfileResponse(nickname, level, createdAt, provider, email, family);
     }
 
 }

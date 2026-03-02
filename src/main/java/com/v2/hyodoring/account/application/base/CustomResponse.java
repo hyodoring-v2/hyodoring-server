@@ -1,4 +1,4 @@
-package com.v2.hyodoring.account.presentation.base;
+package com.v2.hyodoring.account.application.base;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;

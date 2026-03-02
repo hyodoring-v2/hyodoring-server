@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public final class AccountOAuthData {
     private final Long accountId;
-    private final AuthProvider authProvider;
+    private final Provider provider;
     private final String clientId;
     private final String redirectUri;
     @Nullable
@@ -14,13 +14,13 @@ public final class AccountOAuthData {
 
     private AccountOAuthData(
             Long accountId,
-            AuthProvider authProvider,
+            Provider provider,
             String clientId,
             String redirectUri,
             @Nullable String email
     ) {
         this.accountId = accountId;
-        this.authProvider = authProvider;
+        this.provider = provider;
         this.clientId = clientId;
         this.redirectUri = redirectUri;
         this.email = email;
@@ -28,12 +28,12 @@ public final class AccountOAuthData {
 
     public static AccountOAuthData of(
             Long accountId,
-            AuthProvider authProvider,
+            Provider provider,
             String clientId,
             String redirectUri,
             @Nullable String email
     ) {
-        return new AccountOAuthData(accountId, authProvider, clientId, redirectUri, email);
+        return new AccountOAuthData(accountId, provider, clientId, redirectUri, email);
     }
 
 }

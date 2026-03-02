@@ -1,7 +1,7 @@
 package com.v2.hyodoring.account.presentation.account.docs;
 
 import com.v2.hyodoring.account.presentation.account.domain.AccountProfileResponse;
-import com.v2.hyodoring.account.presentation.base.CustomResponse;
+import com.v2.hyodoring.account.application.base.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;

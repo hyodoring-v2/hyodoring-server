@@ -1,5 +1,6 @@
 package com.v2.hyodoring.family.infrastructure.jpa.family.domain;
 
+import com.v2.hyodoring.family.core.family.FamilyAccount;
 import com.v2.hyodoring.family.infrastructure.jpa.base.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,11 +27,15 @@ public class FamilyAccountEntity extends BaseEntity {
     @Column(nullable = false)
     private Integer score;
 
-    public static FamilyAccountEntity of(long familyId, long accountId, int score) {
+    public static FamilyAccountEntity from(FamilyAccount familyAccount) {
         return FamilyAccountEntity.builder()
-                .familyId(familyId)
-                .accountId(accountId)
-                .score(score)
+                .familyId(familyAccount.getFamilyId())
+                .accountId(familyAccount.getAccountId())
+                .score(familyAccount.getScore())
                 .build();
+    }
+
+    public FamilyAccount toDomain() {
+        return FamilyAccount.of(id, familyId, accountId, score, getCreatedAt(), getUpdatedAt());
     }
 }

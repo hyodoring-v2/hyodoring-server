@@ -1,4 +1,4 @@
-package com.v2.hyodoring.account.presentation.base;
+package com.v2.hyodoring.account.application.base;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;

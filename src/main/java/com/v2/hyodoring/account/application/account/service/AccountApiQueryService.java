@@ -1,8 +1,8 @@
-package com.v2.hyodoring.account.application.account;
+package com.v2.hyodoring.account.application.account.service;
 
 import com.v2.hyodoring.account.application.auth.service.AuthQueryService;
+import com.v2.hyodoring.account.core.account.domain.Account;
 import com.v2.hyodoring.account.core.auth.domain.AccountOAuthData;
-import com.v2.hyodoring.account.infrastructure.jpa.account.domain.AccountEntity;
 import com.v2.hyodoring.account.presentation.account.domain.AccountProfileResponse;
 import com.v2.hyodoring.family.core.family.Level;
 import lombok.RequiredArgsConstructor;
@@ -25,15 +25,15 @@ public class AccountApiQueryService {
      * @return 계정 프로필 정보 반환
      */
     public AccountProfileResponse getProfile(Long accountId) {
-        AccountEntity accountEntity = accountQueryService.getAccount(accountId);
+        Account account = accountQueryService.getActiveAccount(accountId);
         AccountOAuthData accountOAuthData = authQueryService.getAllAccountOAuthData(accountId)
                 .stream().findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("No OAuth data found for accountId: " + accountId));
         return AccountProfileResponse.of(
-                accountEntity.getNickname(),
-                Level.fromScore(accountEntity.getScore()),
-                accountEntity.getCreatedAt(),
-                accountOAuthData.getAuthProvider(),
+                account.getNickname(),
+                Level.fromScore(50), //TODO: 가족 역할 점수 추가
+                account.getCreatedAt(),
+                accountOAuthData.getProvider(),
                 accountOAuthData.getEmail(),
                 List.of() // TODO: 가족 정보 추가
         );
