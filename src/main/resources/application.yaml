@@ -34,6 +34,14 @@ spring:
 springdoc:
   dev: ${DEV_SERVER_URL}
 
+jwt:
+  prefix: Bearer
+  secret: ${JWT_SECRET_KEY}
+  access-token:
+    expiration-ms: 7200000 # 2h
+  refresh-token:
+    expiration-ms: 2592000000 # 30d
+
 feign:
   client:
     kakao:

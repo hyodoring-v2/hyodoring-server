@@ -1,6 +1,7 @@
 package com.v2.hyodoring.account.application.auth.service;
 
 import com.v2.hyodoring.account.application.account.service.AccountCommandService;
+import com.v2.hyodoring.account.application.account.service.AccountQueryService;
 import com.v2.hyodoring.account.application.auth.domain.exception.AuthErrorResponse;
 import com.v2.hyodoring.account.application.auth.domain.exception.AuthException;
 import com.v2.hyodoring.account.application.auth.domain.response.AccountTokenResponse;
@@ -12,6 +13,7 @@ import com.v2.hyodoring.account.core.auth.domain.AuthProvider;
 import com.v2.hyodoring.account.core.auth.domain.Provider;
 import com.v2.hyodoring.account.core.role.AccountRoleType;
 import com.v2.hyodoring.account.infrastructure.feign.auth.domain.OIDCPayload;
+import com.v2.hyodoring.account.infrastructure.jwt.auth.service.JwtProvider;
 import com.v2.hyodoring.family.application.family.service.FamilyCommandService;
 import com.v2.hyodoring.family.application.family.service.FamilyQueryService;
 import com.v2.hyodoring.family.core.family.Family;
@@ -25,10 +27,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthApiCommandService {
     private final OIDCServiceFactory oidcServiceFactory;
+    private final JwtProvider jwtProvider;
 
     private final AuthCommandService authCommandService;
     private final AuthQueryService authQueryService;
     private final AccountCommandService accountCommandService;
+    private final AccountQueryService accountQueryService;
 
     private final FamilyCommandService familyCommandService;
     private final FamilyQueryService familyQueryService;
@@ -41,9 +45,17 @@ public class AuthApiCommandService {
 
         // subject를 통한 계정 조회
         final Account account = authQueryService.getActiveAccountBySubject(provider, payload.getSubject());
+        final AccountRoleType accountRole = accountQueryService.getAccountRole(account.getId());
 
-        //TODO: JWT 액세스 토큰 및 리프레시 토큰 발급
-        return AccountTokenResponse.of(account.getId(), account.getNickname(), "accessToken");
+        // JWT 액세스 토큰 및 리프레시 토큰 발급
+        final String accessToken = jwtProvider.generateAccessToken(account.getId(), account.getNickname(), accountRole);
+        final String refreshToken = jwtProvider.generateRefreshToken(account.getId(), account.getNickname(), accountRole);
+        return AccountTokenResponse.of(
+                account.getId(),
+                account.getNickname(),
+                accessToken,
+                refreshToken
+        );
     }
 
     @Transactional
@@ -60,8 +72,11 @@ public class AuthApiCommandService {
         // 계정 생성
         //TODO: payload의 name이 null인 경우 랜덤 닉네임을 생성하는 로직 추가
         final Account account = accountCommandService.save(Account.create(payload.getName()), AccountRoleType.USER);
+        final AccountRoleType accountRole = accountQueryService.getAccountRole(account.getId());
 
-        //TODO: JWT 액세스 토큰 및 리프레시 토큰 발급
+        // JWT 액세스 토큰 및 리프레시 토큰 발급
+        final String accessToken = jwtProvider.generateAccessToken(account.getId(), account.getNickname(), accountRole);
+        final String refreshToken = jwtProvider.generateRefreshToken(account.getId(), account.getNickname(), accountRole);
 
         // 인증 정보 생성
         final AuthProvider authProvider = authQueryService.getAuthProviderByName(provider);
@@ -69,8 +84,8 @@ public class AuthApiCommandService {
                 account.getId(),
                 authProvider.getId(),
                 payload.getSubject(),
-                "accessToken",
-                "refreshToken",
+                accessToken,
+                refreshToken,
                 payload.getEmail()
         ));
 
@@ -81,6 +96,12 @@ public class AuthApiCommandService {
         } else {
             familyCommandService.generateFamily(Family.create(familyCode), account);
         }
-        return AccountTokenResponse.of(account.getId(), account.getNickname(), "accessToken");
+
+        return AccountTokenResponse.of(
+                account.getId(),
+                account.getNickname(),
+                accessToken,
+                refreshToken
+        );
     }
 }

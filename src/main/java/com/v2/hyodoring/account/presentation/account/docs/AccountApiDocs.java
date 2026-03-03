@@ -1,7 +1,8 @@
 package com.v2.hyodoring.account.presentation.account.docs;
 
-import com.v2.hyodoring.account.application.account.domain.AccountProfileResponse;
+import com.v2.hyodoring.account.application.account.domain.response.AccountProfileResponse;
 import com.v2.hyodoring.account.application.base.CustomResponse;
+import com.v2.hyodoring.account.infrastructure.jwt.account.domain.AccountPrincipal;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -19,5 +20,5 @@ public interface AccountApiDocs {
 //            @ApiResponse(responseCode = "403", description = "권한이 없는 사용자입니다"),
 //            @ApiResponse(responseCode = "404", description = "계정을 찾을 수 없습니다"),
 //    })
-    ResponseEntity<CustomResponse<AccountProfileResponse>> getProfile();
+    ResponseEntity<CustomResponse<AccountProfileResponse>> getProfile(AccountPrincipal principal);
 }

@@ -1,9 +1,10 @@
 package com.v2.hyodoring.account.core.config;
 
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,14 +12,10 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
-@SecurityScheme(
-        name = "Bearer Authentication",
-        type = SecuritySchemeType.HTTP,
-        scheme = "bearer",
-        bearerFormat = "JWT"
-)
 @Configuration
 public class SwaggerConfig {
+
+    private static final String JWT_SCHEME_NAME = "Bearer Authentication";
 
     @Value("${springdoc.dev}")
     private String devServerUrl;
@@ -41,8 +38,20 @@ public class SwaggerConfig {
                 .description("Hyodoring API 명세서")
                 .version("1.0.0");
 
+
+        SecurityRequirement securityRequirement = new SecurityRequirement()
+                .addList(JWT_SCHEME_NAME);
+
+        Components components = new Components()
+                .addSecuritySchemes(JWT_SCHEME_NAME, new SecurityScheme()
+                        .type(SecurityScheme.Type.HTTP)
+                        .scheme("bearer")
+                        .bearerFormat("JWT"));
+
         return new OpenAPI()
                 .info(info)
-                .servers(List.of(localServer, devServer));
+                .servers(List.of(localServer, devServer))
+                .addSecurityItem(securityRequirement)
+                .components(components);
     }
 }
