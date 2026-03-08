@@ -18,7 +18,9 @@ public class FamilyApiQueryService {
     private final FamilyQueryService familyQueryService;
 
     public void validateFamilyMember(Long accountId, Long familyId) {
-        familyQueryService.validateFamilyMember(familyId, accountId);
+        if (!familyQueryService.isFamilyMember(familyId, accountId)) {
+            throw new FamilyException(FamilyErrorResponse.FAMILY_MEMBER_NOT_FOUND);
+        }
     }
 
     public FamilyInfoResponse getFamilyInfo(Long familyId) {

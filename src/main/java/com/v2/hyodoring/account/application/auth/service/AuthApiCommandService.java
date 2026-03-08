@@ -70,7 +70,6 @@ public class AuthApiCommandService {
         }
 
         // 계정 생성
-        //TODO: payload의 name이 null인 경우 랜덤 닉네임을 생성하는 로직 추가
         final Account account = accountCommandService.save(Account.create(payload.getName()), AccountRoleType.USER);
         final AccountRoleType accountRole = accountQueryService.getAccountRole(account.getId());
 

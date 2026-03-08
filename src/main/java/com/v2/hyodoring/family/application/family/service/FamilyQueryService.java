@@ -9,6 +9,7 @@ import com.v2.hyodoring.family.application.family.domain.exception.FamilyExcepti
 import com.v2.hyodoring.family.core.family.Family;
 import com.v2.hyodoring.family.core.family.FamilyMember;
 import com.v2.hyodoring.family.core.family.FamilyRole;
+import com.v2.hyodoring.family.infrastructure.jpa.family.domain.FamilyAccountEntity;
 import com.v2.hyodoring.family.infrastructure.jpa.family.repository.FamilyAccountQueryRepository;
 import com.v2.hyodoring.family.infrastructure.jpa.family.repository.FamilyQueryRepository;
 import lombok.RequiredArgsConstructor;
@@ -56,9 +57,10 @@ public class FamilyQueryService {
                 .toList();
     }
 
-    public void validateFamilyMember(Long familyId, Long accountId) {
-        familyAccountQueryRepository.findByFamilyIdAndAccountId(familyId, accountId)
-                .orElseThrow(() -> new FamilyException(FamilyErrorResponse.FAMILY_MEMBER_NOT_FOUND));
+    public boolean isFamilyMember(Long familyId, Long accountId) {
+        final FamilyAccountEntity familyAccountEntity = familyAccountQueryRepository
+                .findByFamilyIdAndAccountId(familyId, accountId).orElse(null);
+        return familyAccountEntity != null;
     }
 
     public boolean existsByFamilyCode(String familyCode) {
