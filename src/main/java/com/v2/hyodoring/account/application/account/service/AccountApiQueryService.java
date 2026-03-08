@@ -7,11 +7,13 @@ import com.v2.hyodoring.account.application.account.domain.response.AccountProfi
 import com.v2.hyodoring.family.core.family.Level;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AccountApiQueryService {
     private final AccountQueryService accountQueryService;
     private final AuthQueryService authQueryService;

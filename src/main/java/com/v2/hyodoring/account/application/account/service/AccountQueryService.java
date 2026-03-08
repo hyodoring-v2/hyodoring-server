@@ -10,9 +10,11 @@ import com.v2.hyodoring.account.infrastructure.jpa.account.repository.AccountQue
 import com.v2.hyodoring.account.infrastructure.jpa.role.repository.RoleQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AccountQueryService {
 
     private final AccountQueryRepository accountQueryRepository;

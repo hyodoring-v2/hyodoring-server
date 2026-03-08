@@ -9,9 +9,11 @@ import com.v2.hyodoring.account.infrastructure.jpa.role.domain.RoleEntity;
 import com.v2.hyodoring.account.infrastructure.jpa.role.repository.RoleCommandRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AccountCommandService {
 
     private final AccountCommandRepository accountCommandRepository;

@@ -9,9 +9,11 @@ import com.v2.hyodoring.family.core.family.FamilyRole;
 import com.v2.hyodoring.family.core.role.FamilyRoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class FamilyApiCommandService {
     private final FamilyCommandService familyCommandService;
     private final FamilyQueryService familyQueryService;

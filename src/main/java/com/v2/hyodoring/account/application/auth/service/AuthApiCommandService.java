@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AuthApiCommandService {
     private final OIDCServiceFactory oidcServiceFactory;
     private final JwtProvider jwtProvider;
@@ -37,7 +38,6 @@ public class AuthApiCommandService {
     private final FamilyCommandService familyCommandService;
     private final FamilyQueryService familyQueryService;
 
-    @Transactional
     public AccountTokenResponse signIn(Provider provider, String idToken) {
         // 소셜 로그인
         final OIDCService oidcService = oidcServiceFactory.getOIDCService(provider);
@@ -58,7 +58,6 @@ public class AuthApiCommandService {
         );
     }
 
-    @Transactional
     public AccountTokenResponse signUp(Provider provider, String idToken, String familyCode, FamilyRoleType role) {
         // id token 검증
         final OIDCService oidcService = oidcServiceFactory.getOIDCService(provider);

@@ -14,9 +14,11 @@ import com.v2.hyodoring.family.infrastructure.jpa.family.repository.FamilyComman
 import com.v2.hyodoring.family.infrastructure.jpa.family.repository.FamilyQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class FamilyCommandService {
 
     private final FamilyCommandRepository familyCommandRepository;

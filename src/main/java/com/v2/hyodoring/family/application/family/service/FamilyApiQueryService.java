@@ -9,11 +9,13 @@ import com.v2.hyodoring.family.application.family.service.utils.FamilyCodeUtils;
 import com.v2.hyodoring.family.core.family.Family;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class FamilyApiQueryService {
     private final FamilyQueryService familyQueryService;
 
