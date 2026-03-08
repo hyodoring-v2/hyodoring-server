@@ -1,6 +1,8 @@
 package com.v2.hyodoring.account.core.account.domain;
 
+import com.v2.hyodoring.account.application.account.utils.NicknameGenerator;
 import lombok.Getter;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 
@@ -26,6 +28,9 @@ public class Account {
     }
 
     public static Account create(String nickname) {
+        if (StringUtils.hasText(nickname)) {
+            return new Account(null, NicknameGenerator.generateNickname(), null, null, null);
+        }
         return new Account(null, nickname, null, null, null);
     }
 
