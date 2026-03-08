@@ -1,4 +1,4 @@
-package com.v2.hyodoring.family.application.family.exception;
+package com.v2.hyodoring.family.application.family.domain.exception;
 
 import com.v2.hyodoring.account.application.base.BaseException;
 

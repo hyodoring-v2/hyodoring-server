@@ -35,7 +35,7 @@ public class AccountQueryService {
     }
 
     public AccountRoleType getAccountRole(Long accountId) {
-        return roleQueryRepository.findByGranteeIdAndGranteeType(accountId, GranteeType.ACCOUNT)
+        return roleQueryRepository.findByAccountIdAndFamilyIdAndGranteeType(accountId, 0L, GranteeType.ACCOUNT)
                 .orElseThrow(() -> new AccountException(AccountErrorResponse.ACCOUNT_ROLE_NOT_FOUND))
                 .toAccountRole()
                 .getName();

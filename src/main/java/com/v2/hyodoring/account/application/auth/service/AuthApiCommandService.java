@@ -92,9 +92,9 @@ public class AuthApiCommandService {
         // 신규 가족 생성 or 기존 가족 참여
         if (familyQueryService.existsByFamilyCode(familyCode)) {
             final Family family = familyQueryService.findByFamilyCode(familyCode);
-            familyCommandService.joinFamily(FamilyRole.create(family.getId(), role), account);
+            familyCommandService.joinFamily(FamilyRole.create(account.getId(), family.getId(), role), account);
         } else {
-            familyCommandService.generateFamily(Family.create(familyCode), account);
+            familyCommandService.generateFamily(Family.create(familyCode), role, account);
         }
 
         return AccountTokenResponse.of(

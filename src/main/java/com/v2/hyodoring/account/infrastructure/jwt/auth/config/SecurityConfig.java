@@ -28,6 +28,7 @@ public class SecurityConfig {
                 .requestMatchers("/v3/**").permitAll()                                      // Swagger API 문서
                 .requestMatchers("/swagger-resources/**").permitAll()                       // Swagger 리소스
                 .requestMatchers("/api/auth/oauth/**").permitAll()                          // 소셜 로그인
+                .requestMatchers("/api/family/code/**").permitAll()
                 .anyRequest().authenticated()
         );
 

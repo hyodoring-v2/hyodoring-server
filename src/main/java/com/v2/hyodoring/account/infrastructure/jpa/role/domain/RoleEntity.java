@@ -11,13 +11,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.util.Assert;
 
 @Getter
 @Entity(name = "role")
 @Table(
         uniqueConstraints = {
-                @UniqueConstraint(name = "uk_role_grantee_id_grantee_type", columnNames = {"grantee_id", "grantee_type"})
+                @UniqueConstraint(name = "uk_role_grantee_id_grantee_type", columnNames = {"account_id", "family_id", "grantee_type"})
         }
 )
 @Builder(access = lombok.AccessLevel.PRIVATE)
@@ -31,7 +30,10 @@ public class RoleEntity extends BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    private Long granteeId;
+    private Long accountId;
+
+    @Column
+    private Long familyId;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -40,19 +42,10 @@ public class RoleEntity extends BaseEntity {
     @Column(columnDefinition = "text", nullable = false)
     private String name;
 
-    public static RoleEntity of(long granteeId, GranteeType granteeType, String name) {
-        Assert.notNull(granteeType, "granteeType can not be null");
-        Assert.hasText(name, "name must not be empty");
-        return RoleEntity.builder()
-                .granteeId(granteeId)
-                .granteeType(granteeType)
-                .name(name)
-                .build();
-    }
-
     public static RoleEntity from(AccountRole accountRole) {
         return RoleEntity.builder()
-                .granteeId(accountRole.getAccountId())
+                .accountId(accountRole.getAccountId())
+                .familyId(0L)
                 .granteeType(GranteeType.ACCOUNT)
                 .name(accountRole.getName().toString())
                 .build();
@@ -60,7 +53,8 @@ public class RoleEntity extends BaseEntity {
 
     public static RoleEntity from(FamilyRole familyRole) {
         return RoleEntity.builder()
-                .granteeId(familyRole.getFamilyId())
+                .accountId(familyRole.getAccountId())
+                .familyId(familyRole.getFamilyId())
                 .granteeType(GranteeType.FAMILY)
                 .name(familyRole.getName().toString())
                 .build();
@@ -70,13 +64,13 @@ public class RoleEntity extends BaseEntity {
         if (!GranteeType.FAMILY.equals(granteeType)) {
             throw new IllegalArgumentException("granteeType must be family");
         }
-        return FamilyRole.of(id, granteeId, FamilyRoleType.valueOf(name), getCreatedAt(), getUpdatedAt());
+        return FamilyRole.of(id, accountId, familyId, FamilyRoleType.valueOf(name), getCreatedAt(), getUpdatedAt());
     }
 
     public AccountRole toAccountRole() {
         if (!GranteeType.ACCOUNT.equals(granteeType)) {
             throw new IllegalArgumentException("granteeType must be account");
         }
-        return AccountRole.of(id, granteeId, AccountRoleType.valueOf(name), getCreatedAt(), getUpdatedAt());
+        return AccountRole.of(id, accountId, AccountRoleType.valueOf(name), getCreatedAt(), getUpdatedAt());
     }
 }

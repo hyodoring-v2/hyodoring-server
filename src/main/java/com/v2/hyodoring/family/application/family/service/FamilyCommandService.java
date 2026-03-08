@@ -6,6 +6,7 @@ import com.v2.hyodoring.account.infrastructure.jpa.role.repository.RoleCommandRe
 import com.v2.hyodoring.family.core.family.Family;
 import com.v2.hyodoring.family.core.family.FamilyAccount;
 import com.v2.hyodoring.family.core.family.FamilyRole;
+import com.v2.hyodoring.family.core.role.FamilyRoleType;
 import com.v2.hyodoring.family.infrastructure.jpa.family.domain.FamilyAccountEntity;
 import com.v2.hyodoring.family.infrastructure.jpa.family.domain.FamilyEntity;
 import com.v2.hyodoring.family.infrastructure.jpa.family.repository.FamilyAccountCommandRepository;
@@ -31,8 +32,10 @@ public class FamilyCommandService {
      * @param account 가족 구성원 정보
      * @return {@link Family}
      */
-    public Family generateFamily(Family family, Account account) {
+    public Family generateFamily(Family family, FamilyRoleType role, Account account) {
         final FamilyEntity familyEntity = familyCommandRepository.save(FamilyEntity.from(family));
+        roleCommandRepository.save(RoleEntity.from(
+                FamilyRole.create(account.getId(), familyEntity.getId(), role)));
         familyAccountCommandRepository.save(FamilyAccountEntity
                 .from(FamilyAccount.create(
                         familyEntity.getId(),

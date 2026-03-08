@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface RoleQueryRepository extends JpaRepository<RoleEntity, Long> {
-    Optional<RoleEntity> findByGranteeIdAndGranteeType(Long granteeId, GranteeType granteeType);
+    Optional<RoleEntity> findByAccountIdAndFamilyIdAndGranteeType(Long accountId, Long familyId, GranteeType granteeType);
 }
