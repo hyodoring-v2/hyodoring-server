@@ -1,7 +1,7 @@
 package com.v2.hyodoring.family.infrastructure.s3.image;
 
 import com.v2.hyodoring.family.core.image.ImageType;
-import com.v2.hyodoring.family.infrastructure.s3.image.domain.S3ObjectUrl;
+import com.v2.hyodoring.family.infrastructure.s3.image.domain.S3ImageUrl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,13 +15,13 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class S3Client {
+public class S3ImageClient {
     private final S3Presigner s3Presigner;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public S3ObjectUrl createPresignedUrl(ImageType type, String extension) {
+    public S3ImageUrl createPresignedUrl(ImageType type, String extension) {
         // S3 Key 생성
         final String keyName = createS3Key(type);
 
@@ -30,7 +30,7 @@ public class S3Client {
 
         // presigned URL과 Public URL 발급
         final PresignedPutObjectRequest request = s3Presigner.presignPutObject(presignRequest);
-        return S3ObjectUrl.of(request.url().toString(), keyName);
+        return S3ImageUrl.of(request.url().toString(), keyName);
 
     }
 
