@@ -1,6 +1,5 @@
 package com.v2.hyodoring.family.application.greeting.service;
 
-import com.v2.hyodoring.family.application.greeting.domain.request.GreetingRequest;
 import com.v2.hyodoring.family.core.greeting.Greeting;
 import com.v2.hyodoring.family.core.greeting.GreetingReply;
 import com.v2.hyodoring.family.infrastructure.jpa.greeting.domain.GreetingEntity;
