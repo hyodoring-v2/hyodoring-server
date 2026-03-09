@@ -54,3 +54,6 @@ feign:
   client:
     kakao:
       url: ${KAKAO_BASE_URL}
+
+firebase:
+  config-path: hyodoring-firebase.json

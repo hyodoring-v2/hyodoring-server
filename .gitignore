@@ -41,3 +41,6 @@ out/
 
 ### yaml ###
 src/main/resources/application-local.yaml
+
+### Firebase ###
+src/main/resources/hyodoring-firebase.json
