@@ -15,11 +15,11 @@ import java.util.List;
 public abstract class AbstractOIDCService implements OIDCService {
 
     private final AuthQueryService authQueryService;
-    private final OIDCTokenVerifier abstractOidcTokenVerifier;
+    private final OIDCTokenVerifier oidcTokenVerifier;
 
     @Override
     public final OIDCPayload verify(String idToken) {
-        return abstractOidcTokenVerifier.verify(idToken, getPublicKeys());
+        return oidcTokenVerifier.verify(idToken, getPublicKeys());
     }
 
     @Override

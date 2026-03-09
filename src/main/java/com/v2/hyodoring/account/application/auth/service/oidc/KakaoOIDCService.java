@@ -12,12 +12,10 @@ import com.v2.hyodoring.account.infrastructure.jpa.auth.repository.OIDCPublicKey
 import com.v2.hyodoring.account.infrastructure.jpa.auth.repository.OIDCPublicKeyQueryRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@Transactional
 public class KakaoOIDCService extends AbstractOIDCService {
     private final EnvProvider envProvider;
     private final AuthProviderQueryRepository authProviderQueryRepository;
