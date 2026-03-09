@@ -41,7 +41,7 @@ public class GreetingReplyResponse {
                                            List<GreetingReplyImage> images) {
         return new GreetingReplyResponse(
                 greetingReply.getId(),
-                greetingReply.getId(),
+                greetingReply.getFamilyId(),
                 FamilyMemberPreview.of(sender.getAccountId(), sender.getNickname(), sender.getRole()),
                 FamilyMemberPreview.of(receiver.getAccountId(), receiver.getNickname(), receiver.getRole()),
                 greetingReply.getContent(),

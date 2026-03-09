@@ -5,6 +5,7 @@ import com.v2.hyodoring.account.infrastructure.jwt.account.domain.AccountPrincip
 import com.v2.hyodoring.family.application.greeting.domain.request.GreetingRequest;
 import com.v2.hyodoring.family.application.greeting.domain.request.GreetingReplyRequest;
 import com.v2.hyodoring.family.application.greeting.domain.response.GreetingReplyResponse;
+import com.v2.hyodoring.family.application.greeting.domain.response.GreetingRequestResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public interface GreetingApiDocs {
                     content 필드에는 안부 요청 메시지(ex. 아들 뭐해? 밥 먹었어? 등)가 포함됩니다.
                     """
     )
-    ResponseEntity<CustomResponse<Void>> requestGreeting(AccountPrincipal principal, GreetingRequest greetingRequest);
+    ResponseEntity<CustomResponse<GreetingRequestResponse>> requestGreeting(AccountPrincipal principal, GreetingRequest greetingRequest);
 
     @Operation(
             summary = "안부 답장하기",

@@ -6,6 +6,7 @@ import com.v2.hyodoring.account.infrastructure.jwt.account.domain.AccountPrincip
 import com.v2.hyodoring.family.application.greeting.domain.request.GreetingRequest;
 import com.v2.hyodoring.family.application.greeting.domain.request.GreetingReplyRequest;
 import com.v2.hyodoring.family.application.greeting.domain.response.GreetingReplyResponse;
+import com.v2.hyodoring.family.application.greeting.domain.response.GreetingRequestResponse;
 import com.v2.hyodoring.family.application.greeting.service.GreetingApiCommandService;
 import com.v2.hyodoring.family.application.greeting.service.GreetingApiQueryService;
 import com.v2.hyodoring.family.presentation.greeting.docs.GreetingApiDocs;
@@ -25,12 +26,12 @@ public class GreetingController implements GreetingApiDocs {
     private final GreetingApiQueryService greetingApiQueryService;
 
     @PostMapping("/greetings/request")
-    public ResponseEntity<CustomResponse<Void>> requestGreeting(
+    public ResponseEntity<CustomResponse<GreetingRequestResponse>> requestGreeting(
             @AuthenticationPrincipal AccountPrincipal principal,
             @RequestBody GreetingRequest greetingRequest
     ) {
-        greetingApiCommandService.requestGreeting(principal.getId(), greetingRequest);
-        return CustomResponse.onSuccess(BaseSuccessResponse.CREATED);
+        return CustomResponse.onSuccess(BaseSuccessResponse.CREATED,
+                greetingApiCommandService.requestGreeting(principal.getId(), greetingRequest));
     }
 
     @PostMapping("/greetings/reply")

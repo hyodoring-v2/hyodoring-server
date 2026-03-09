@@ -5,7 +5,9 @@ import com.v2.hyodoring.family.application.family.service.FamilyQueryService;
 import com.v2.hyodoring.family.application.greeting.domain.request.GreetingRequest;
 import com.v2.hyodoring.family.application.greeting.domain.request.GreetingReplyRequest;
 import com.v2.hyodoring.family.application.greeting.domain.response.GreetingReplyResponse;
+import com.v2.hyodoring.family.application.greeting.domain.response.GreetingRequestResponse;
 import com.v2.hyodoring.family.application.image.service.ImageCommandService;
+import com.v2.hyodoring.family.application.notification.service.FCMCommandService;
 import com.v2.hyodoring.family.core.family.FamilyMember;
 import com.v2.hyodoring.family.core.greeting.Greeting;
 import com.v2.hyodoring.family.core.greeting.GreetingReply;
@@ -24,8 +26,9 @@ public class GreetingApiCommandService {
     private final FamilyQueryService familyQueryService;
     private final GreetingCommandService greetingCommandService;
     private final ImageCommandService imageCommandService;
+    private final FCMCommandService fcmCommandService;
 
-    public void requestGreeting(Long senderId, GreetingRequest greetingRequest) {
+    public GreetingRequestResponse requestGreeting(Long senderId, GreetingRequest greetingRequest) {
         // 안부를 생성하여 DB에 저장
         final Greeting greeting = greetingCommandService.saveGreeting(
                 Greeting.create(
@@ -35,7 +38,18 @@ public class GreetingApiCommandService {
                         greetingRequest.getContent()
                 )
         );
-        //TODO: 푸시알림 전송
+        // 안부 송수신자 정보 조회
+        final FamilyMember sender = familyQueryService
+                .getFamilyMember(greeting.getFamilyId(), senderId);
+        final FamilyMember receiver = familyQueryService
+                .getFamilyMember(greeting.getFamilyId(), greeting.getReceiverId());
+
+        // 푸시알림 전송
+        final String title = greetingRequest.getContent();
+        final String body = generateGreetingBody(sender, title);
+        fcmCommandService.sendMessage(senderId, title, body);
+
+        return GreetingRequestResponse.of(greeting, sender, receiver, title, body);
     }
 
     public GreetingReplyResponse replyGreeting(Long senderId, GreetingReplyRequest request) {
@@ -60,5 +74,9 @@ public class GreetingApiCommandService {
                 .getFamilyMember(request.getFamilyId(), request.getSenderId());
 
         return GreetingReplyResponse.of(greetingReply, sender, receiver, images);
+    }
+
+    private String generateGreetingBody(FamilyMember familyMember, String content) {
+        return String.format("%s(%s)의 %s 도착!", familyMember.getRole().getLabel(), familyMember.getNickname(), content);
     }
 }
