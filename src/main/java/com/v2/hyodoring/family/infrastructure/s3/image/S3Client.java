@@ -11,7 +11,6 @@ import software.amazon.awssdk.services.s3.presigner.model.PresignedPutObjectRequ
 import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignRequest;
 
 import java.time.Duration;
-import java.util.Map;
 import java.util.UUID;
 
 @Component
@@ -37,17 +36,12 @@ public class S3Client {
 
     private PutObjectPresignRequest createPutObjectPresignRequest(String keyName, String extension) {
         final String contentType = "image/" + extension;
-        final Map<String, String> metadata = Map.of(
-                "fileType", contentType,
-                "Content-Type", contentType
-        );
-
         return PutObjectPresignRequest.builder()
                 .signatureDuration(Duration.ofMinutes(10))
                 .putObjectRequest(PutObjectRequest.builder()
                         .bucket(bucket)
                         .key(keyName)
-                        .metadata(metadata)
+                        .contentType(contentType)
                         .build())
                 .build();
     }

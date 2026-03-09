@@ -1,5 +1,6 @@
 package com.v2.hyodoring.family.infrastructure.jpa.image.domain;
 
+import com.v2.hyodoring.family.core.greeting.GreetingReplyImage;
 import com.v2.hyodoring.family.core.image.ImageType;
 import com.v2.hyodoring.family.infrastructure.jpa.base.domain.BaseEntity;
 import jakarta.persistence.*;
@@ -27,6 +28,21 @@ public class ImageEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String url;
+
+    public static ImageEntity from(GreetingReplyImage image) {
+        return ImageEntity.builder()
+                .targetId(image.getGreetingId())
+                .targetType(ImageType.GREETING_IMAGE)
+                .url(image.getUrl())
+                .build();
+    }
+
+    public GreetingReplyImage toGreetingReplyImage() {
+        if (!ImageType.GREETING_IMAGE.equals(targetType)) {
+            throw new IllegalArgumentException("targetType must be greeting image");
+        }
+        return GreetingReplyImage.of(id, targetId, url);
+    }
 
     public static ImageEntity of(long targetId, ImageType targetType, String url) {
         Assert.notNull(targetType, "targetType can not be null");

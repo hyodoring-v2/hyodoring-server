@@ -1,8 +1,10 @@
 package com.v2.hyodoring.family.presentation.greeting.docs;
 
 import com.v2.hyodoring.account.application.base.CustomResponse;
+import com.v2.hyodoring.account.infrastructure.jwt.account.domain.AccountPrincipal;
 import com.v2.hyodoring.family.application.greeting.domain.request.GreetingRequest;
 import com.v2.hyodoring.family.application.greeting.domain.request.GreetingReplyRequest;
+import com.v2.hyodoring.family.application.greeting.domain.response.GreetingReplyResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +19,14 @@ public interface GreetingApiDocs {
                     content 필드에는 안부 요청 메시지(ex. 아들 뭐해? 밥 먹었어? 등)가 포함됩니다.
                     """
     )
-    ResponseEntity<CustomResponse<Void>> requestGreeting(GreetingRequest greetingRequest);
+    ResponseEntity<CustomResponse<Void>> requestGreeting(AccountPrincipal principal, GreetingRequest greetingRequest);
 
     @Operation(
             summary = "안부 답장하기",
             description = """
-                    ### 특정 가족(familyId)의 구성원(senderId)이 요청한 안부에 답장합니다.
+                    ### 특정 가족(familyId)의 구성원(receiverId)이 요청한 안부에 답장합니다.
                     content 필드에는 안부 게시글의 텍스트, imageUrls에는 업로드한 사진의 s3 url이 포함됩니다.
                     """
     )
-    ResponseEntity<CustomResponse<Void>> replyGreeting(GreetingReplyRequest greetingReplyRequest);
+    ResponseEntity<CustomResponse<GreetingReplyResponse>> replyGreeting(AccountPrincipal principal, GreetingReplyRequest greetingReplyRequest);
 }

@@ -2,8 +2,9 @@ package com.v2.hyodoring.family.presentation.image;
 
 import com.v2.hyodoring.account.application.base.BaseSuccessResponse;
 import com.v2.hyodoring.account.application.base.CustomResponse;
-import com.v2.hyodoring.family.application.image.service.S3ImageService;
+import com.v2.hyodoring.family.application.image.service.ImageCommandService;
 import com.v2.hyodoring.family.core.image.ImageType;
+import com.v2.hyodoring.family.presentation.image.docs.ImageApiDocs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/images")
-public class ImageController {
-    private final S3ImageService s3ImageService;
+public class ImageController implements ImageApiDocs {
+    private final ImageCommandService imageCommandService;
 
     @GetMapping("/presigned-url")
     public ResponseEntity<CustomResponse<String>> getPresignedUrl(
@@ -23,6 +24,6 @@ public class ImageController {
             @RequestParam String extension
     ) {
         return CustomResponse.onSuccess(BaseSuccessResponse.OK,
-                s3ImageService.getPresignedUrl(type, extension));
+                imageCommandService.getPresignedUrl(type, extension));
     }
 }
