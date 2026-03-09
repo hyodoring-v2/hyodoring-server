@@ -15,21 +15,21 @@ public class FamilyMemberResponse {
     private final FamilyRoleType role;
     private final LocalDateTime joinedAt;
 
-    private FamilyMemberResponse(Long accountId, String nickname, Integer score, FamilyRoleType role, LocalDateTime joinedAt) {
+    private FamilyMemberResponse(Long accountId, String nickname, Level level, FamilyRoleType role, LocalDateTime joinedAt) {
         Assert.notNull(accountId, "accountId must not be null.");
         Assert.hasText(nickname, "nickname must not be empty.");
-        Assert.notNull(score, "score must not be null.");
+        Assert.notNull(level, "level must not be null.");
         Assert.notNull(role, "role must not be null.");
         Assert.notNull(joinedAt, "joinedAt must not be null.");
         this.accountId = accountId;
         this.nickname = nickname;
-        this.level = Level.fromScore(score);
+        this.level = level;
         this.role = role;
         this.joinedAt = joinedAt;
     }
 
-    public static FamilyMemberResponse of(Long accountId, String nickname, Integer score,
+    public static FamilyMemberResponse of(Long accountId, String nickname, Level level,
                                           FamilyRoleType role, LocalDateTime joinedAt) {
-        return new FamilyMemberResponse(accountId, nickname, score, role, joinedAt);
+        return new FamilyMemberResponse(accountId, nickname, level, role, joinedAt);
     }
 }

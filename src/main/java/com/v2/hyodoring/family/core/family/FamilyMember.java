@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class FamilyMember {
     private final Long accountId;
     private final String nickname;
-    private final Integer score;
+    private final Level level;
     private final FamilyRoleType role;
     private final LocalDateTime joinedAt;
 
@@ -22,7 +22,7 @@ public class FamilyMember {
         Assert.notNull(joinedAt, "joinedAt must not be null.");
         this.accountId = accountId;
         this.nickname = nickname;
-        this.score = score;
+        this.level = Level.fromScore(score);
         this.role = role;
         this.joinedAt = joinedAt;
     }

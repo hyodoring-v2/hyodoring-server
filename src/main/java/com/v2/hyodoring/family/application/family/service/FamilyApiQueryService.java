@@ -31,7 +31,7 @@ public class FamilyApiQueryService {
                 .map(member -> FamilyMemberResponse.of(
                         member.getAccountId(),
                         member.getNickname(),
-                        member.getScore(),
+                        member.getLevel(),
                         member.getRole(),
                         member.getJoinedAt()
                 ))
