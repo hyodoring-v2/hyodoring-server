@@ -1,9 +1,11 @@
 package com.v2.hyodoring.family.infrastructure.jpa.greeting.domain;
 
+import com.v2.hyodoring.family.core.greeting.Greeting;
+import com.v2.hyodoring.family.core.greeting.GreetingReply;
+import com.v2.hyodoring.family.core.greeting.GreetingType;
 import com.v2.hyodoring.family.infrastructure.jpa.base.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 
@@ -22,14 +24,15 @@ public class GreetingEntity extends BaseEntity {
     @Column(nullable = false)
     private Long familyId;
 
-    @Column
+    @Column(nullable = false)
     private Long senderId;
 
-    @Column
+    @Column(nullable = false)
     private Long receiverId;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Long writerId;
+    private GreetingType type;
 
     @Column(columnDefinition = "text", nullable = false)
     private String content;
@@ -37,14 +40,38 @@ public class GreetingEntity extends BaseEntity {
     @Column
     private LocalDateTime checkedAt;
 
-    public static GreetingEntity of(long familyId, long senderId, long receiverId, long writerId, String content) {
-        Assert.hasText(content, "content must not be empty");
+    public static GreetingEntity from(GreetingReply greetingReply) {
         return GreetingEntity.builder()
-                .familyId(familyId)
-                .senderId(senderId)
-                .receiverId(receiverId)
-                .writerId(writerId)
-                .content(content)
+                .familyId(greetingReply.getFamilyId())
+                .senderId(greetingReply.getSenderId())
+                .receiverId(greetingReply.getReceiverId())
+                .type(GreetingType.REPLY)
+                .content(greetingReply.getContent())
                 .build();
+    }
+
+    public static GreetingEntity from(Greeting greeting) {
+        return GreetingEntity.builder()
+                .familyId(greeting.getFamilyId())
+                .senderId(greeting.getSenderId())
+                .receiverId(greeting.getReceiverId())
+                .type(GreetingType.REQUEST)
+                .content(greeting.getContent())
+                .checkedAt(greeting.getCheckedAt())
+                .build();
+    }
+
+    public GreetingReply toGreetingReply() {
+        if (!GreetingType.REPLY.equals(type)) {
+            throw new IllegalArgumentException("greetingType must be reply");
+        }
+        return GreetingReply.of(id, familyId, senderId, receiverId, content);
+    }
+
+    public Greeting toGreeting() {
+        if (!GreetingType.REQUEST.equals(type)) {
+            throw new IllegalArgumentException("greetingType must be request");
+        }
+        return Greeting.of(id, familyId, senderId, receiverId, content, checkedAt);
     }
 }
