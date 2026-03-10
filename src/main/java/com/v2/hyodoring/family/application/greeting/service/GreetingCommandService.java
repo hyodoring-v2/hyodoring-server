@@ -7,9 +7,11 @@ import com.v2.hyodoring.family.infrastructure.jpa.greeting.repository.GreetingCo
 import com.v2.hyodoring.family.infrastructure.jpa.greeting.repository.GreetingQueryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class GreetingCommandService {
 
     private final GreetingCommandRepository greetingCommandRepository;

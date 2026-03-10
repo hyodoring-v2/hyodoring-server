@@ -4,7 +4,9 @@ import com.v2.hyodoring.account.application.base.CustomResponse;
 import com.v2.hyodoring.account.infrastructure.jwt.account.domain.AccountPrincipal;
 import com.v2.hyodoring.family.application.greeting.domain.request.GreetingRequest;
 import com.v2.hyodoring.family.application.greeting.domain.request.GreetingReplyRequest;
+import com.v2.hyodoring.family.application.greeting.domain.response.GreetingReplyListResponse;
 import com.v2.hyodoring.family.application.greeting.domain.response.GreetingReplyResponse;
+import com.v2.hyodoring.family.application.greeting.domain.response.GreetingRequestListResponse;
 import com.v2.hyodoring.family.application.greeting.domain.response.GreetingRequestResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,4 +32,16 @@ public interface GreetingApiDocs {
                     """
     )
     ResponseEntity<CustomResponse<GreetingReplyResponse>> replyGreeting(AccountPrincipal principal, GreetingReplyRequest greetingReplyRequest);
+
+    @Operation(
+            summary = "안부 요청 목록 조회하기",
+            description = "24시간 내에 도착한 안부 요청 중 답장을 보내지 않은 요청 목록을 최신순으로 반환합니다."
+    )
+    ResponseEntity<CustomResponse<GreetingRequestListResponse>> getGreetingRequestList(AccountPrincipal principal, Long familyId);
+
+    @Operation(
+            summary = "안부 답장 목록 조회하기",
+            description = "가족이 주고받은 모든 안부를 최신순으로 반환합니다. (페이징 구현 전)"
+    )
+    ResponseEntity<CustomResponse<GreetingReplyListResponse>> getGreetingReplyList(AccountPrincipal principal, Long familyId);
 }

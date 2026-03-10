@@ -65,13 +65,17 @@ public class GreetingEntity extends BaseEntity {
         if (!GreetingType.REPLY.equals(type)) {
             throw new IllegalArgumentException("greetingType must be reply");
         }
-        return GreetingReply.of(id, familyId, senderId, receiverId, content);
+        return GreetingReply.of(id, familyId, senderId, receiverId, content, getCreatedAt());
     }
 
     public Greeting toGreeting() {
         if (!GreetingType.REQUEST.equals(type)) {
             throw new IllegalArgumentException("greetingType must be request");
         }
-        return Greeting.of(id, familyId, senderId, receiverId, content, checkedAt);
+        return Greeting.of(id, familyId, senderId, receiverId, content, getCreatedAt(), checkedAt);
+    }
+
+    public boolean isChecked() {
+        return checkedAt != null;
     }
 }
