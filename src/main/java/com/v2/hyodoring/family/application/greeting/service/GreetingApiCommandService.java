@@ -22,7 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 public class GreetingApiCommandService {
-
     private final FamilyQueryService familyQueryService;
     private final GreetingCommandService greetingCommandService;
     private final ImageCommandService imageCommandService;
@@ -53,6 +52,9 @@ public class GreetingApiCommandService {
     }
 
     public GreetingReplyResponse replyGreeting(Long senderId, GreetingReplyRequest request) {
+        // 안부 요청 확인 표시
+        greetingCommandService.checkGreeting(request.getRequestId());
+
         // 안부 답장 생성
         final GreetingReply greetingReply = greetingCommandService.saveGreetingReply(
                 GreetingReply.create(

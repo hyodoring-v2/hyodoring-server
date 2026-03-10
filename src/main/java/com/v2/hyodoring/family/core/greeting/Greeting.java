@@ -33,16 +33,4 @@ public class Greeting {
                               String content, LocalDateTime createdAt, LocalDateTime checkedAt) {
         return new Greeting(id, familyId, senderId, receiverId, content, createdAt, checkedAt);
     }
-
-    public static Greeting updateCheckStatus(Greeting greeting) {
-        return new Greeting(
-                greeting.getId(),
-                greeting.getFamilyId(),
-                greeting.getSenderId(),
-                greeting.getReceiverId(),
-                greeting.getContent(),
-                greeting.getCreatedAt(),
-                LocalDateTime.now()
-        );
-    }
 }

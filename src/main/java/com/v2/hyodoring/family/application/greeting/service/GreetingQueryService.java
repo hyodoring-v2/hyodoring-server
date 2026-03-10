@@ -70,7 +70,7 @@ public class GreetingQueryService {
      */
     public List<GreetingReplyImage> getGreetingReplyImageList(Long replyId) {
         // 안부가 존재하는지 확인
-        greetingQueryRepository.findById(replyId)
+        greetingQueryRepository.findByIdAndType(replyId, GreetingType.REPLY)
                 .orElseThrow(() -> new GreetingException(GreetingErrorResponse.GREETING_REPLY_NOT_FOUND));
         // 안부에 포함된 이미지 목록 반환
         return imageQueryRepository.findAllByTargetIdAndTargetType(replyId, ImageType.GREETING_IMAGE).stream()

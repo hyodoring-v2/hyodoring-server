@@ -29,6 +29,7 @@ public interface GreetingApiDocs {
             description = """
                     ### 특정 가족(familyId)의 구성원(receiverId)이 요청한 안부에 답장합니다.
                     content 필드에는 안부 게시글의 텍스트, imageUrls에는 업로드한 사진의 s3 url이 포함됩니다.
+                    requestId 필드에는 답장하고자 하는 안부 요청의 id가 포함됩니다.
                     """
     )
     ResponseEntity<CustomResponse<GreetingReplyResponse>> replyGreeting(AccountPrincipal principal, GreetingReplyRequest greetingReplyRequest);

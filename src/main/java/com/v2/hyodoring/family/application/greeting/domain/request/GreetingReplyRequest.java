@@ -9,6 +9,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GreetingReplyRequest {
     private final Long familyId;
+    private final Long requestId;
     private final Long senderId;
     private final Long receiverId;
     private final String content;

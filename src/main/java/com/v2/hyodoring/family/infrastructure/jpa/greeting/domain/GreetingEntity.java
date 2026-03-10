@@ -78,4 +78,8 @@ public class GreetingEntity extends BaseEntity {
     public boolean isChecked() {
         return checkedAt != null;
     }
+
+    public void updateCheckStatus() {
+        checkedAt = LocalDateTime.now();
+    }
 }
