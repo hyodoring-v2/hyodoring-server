@@ -24,6 +24,7 @@ public class AccountController implements AccountApiDocs {
     public ResponseEntity<CustomResponse<AccountProfileResponse>> getProfile(
             @AuthenticationPrincipal AccountPrincipal principal
     ) {
-        return CustomResponse.onSuccess(BaseSuccessResponse.OK, accountApiQueryService.getProfile(principal.getId()));
+        return CustomResponse.onSuccess(BaseSuccessResponse.OK,
+                accountApiQueryService.getProfile(principal.getId()));
     }
 }

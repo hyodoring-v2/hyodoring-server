@@ -4,6 +4,7 @@ import com.v2.hyodoring.account.application.account.service.AccountQueryService;
 import com.v2.hyodoring.account.core.account.domain.Account;
 import com.v2.hyodoring.account.core.role.GranteeType;
 import com.v2.hyodoring.account.infrastructure.jpa.role.repository.RoleQueryRepository;
+import com.v2.hyodoring.family.application.family.FamilyRoleData;
 import com.v2.hyodoring.family.application.family.domain.exception.FamilyErrorResponse;
 import com.v2.hyodoring.family.application.family.domain.exception.FamilyException;
 import com.v2.hyodoring.family.core.family.Family;
@@ -85,6 +86,26 @@ public class FamilyQueryService {
                 .map(familyAccount -> familyQueryRepository.findById(familyAccount.getFamilyId())
                         .orElseThrow(() -> new FamilyException(FamilyErrorResponse.FAMILY_NOT_FOUND))
                         .toDomain())
+                .toList();
+    }
+
+    /**
+     * 사용자가 참여하는 모든 가족의 역할 정보를 조회하는 메서드
+     * @param accountId 사용자 id
+     * @return 사용자가 참여하는 모든 가족 정보(id, 이름, 코드)와 역할(id, 레벨, ) 정보
+     */
+    public List<FamilyRoleData> getFamilyRolesByAccountId(Long accountId) {
+        return familyAccountQueryRepository.findAllByAccountId(accountId).stream()
+                .map(familyAccount -> {
+                    // 가족 정보 조회
+                    final Family family = familyQueryRepository.findById(familyAccount.getFamilyId())
+                            .orElseThrow(() -> new FamilyException(FamilyErrorResponse.FAMILY_NOT_FOUND))
+                            .toDomain();
+                    // 가족 구성원 역할 정보 조회
+                    final FamilyMember familyMember = getFamilyMemberInfo(familyAccount.toDomain());
+                    return FamilyRoleData.of(family.getId(), family.getName(), family.getCode(),
+                            familyMember.getLevel(), familyMember.getRole());
+                })
                 .toList();
     }
 

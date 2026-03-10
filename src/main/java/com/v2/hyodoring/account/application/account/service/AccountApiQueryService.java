@@ -4,6 +4,7 @@ import com.v2.hyodoring.account.application.auth.service.AuthQueryService;
 import com.v2.hyodoring.account.core.account.domain.Account;
 import com.v2.hyodoring.account.core.auth.domain.AccountOAuthData;
 import com.v2.hyodoring.account.application.account.domain.response.AccountProfileResponse;
+import com.v2.hyodoring.family.application.family.service.FamilyQueryService;
 import com.v2.hyodoring.family.core.family.Level;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ import java.util.List;
 public class AccountApiQueryService {
     private final AccountQueryService accountQueryService;
     private final AuthQueryService authQueryService;
+
+    private final FamilyQueryService familyQueryService;
 
     /**
      * 계정 프로필 조회
@@ -32,12 +35,12 @@ public class AccountApiQueryService {
                 .stream().findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("No OAuth data found for accountId: " + accountId));
         return AccountProfileResponse.of(
+                accountId,
                 account.getNickname(),
-                Level.fromScore(50), //TODO: 가족 역할 점수 추가
                 account.getCreatedAt(),
                 accountOAuthData.getProvider(),
                 accountOAuthData.getEmail(),
-                List.of() // TODO: 가족 정보 추가
+                familyQueryService.getFamilyRolesByAccountId(accountId)
         );
     }
 }
