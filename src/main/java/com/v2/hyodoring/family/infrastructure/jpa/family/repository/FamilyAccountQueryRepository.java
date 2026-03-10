@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface FamilyAccountQueryRepository extends JpaRepository<FamilyAccountEntity,Long> {
     List<FamilyAccountEntity> findAllByFamilyId(Long familyId);
     Optional<FamilyAccountEntity> findByFamilyIdAndAccountId(Long familyId, Long accountId);
+    List<FamilyAccountEntity> findAllByAccountId(Long accountId);
 }

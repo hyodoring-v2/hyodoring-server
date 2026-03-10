@@ -76,6 +76,19 @@ public class FamilyQueryService {
     }
 
     /**
+     * 사용자가 참여하는 모든 가족을 조회하는 메서드
+     * @param accountId 사용자 id
+     * @return 사용자가 참여하는 가족 리스트
+     */
+    public List<Family> getJoinedFamilyList(Long accountId) {
+        return familyAccountQueryRepository.findAllByAccountId(accountId).stream()
+                .map(familyAccount -> familyQueryRepository.findById(familyAccount.getFamilyId())
+                        .orElseThrow(() -> new FamilyException(FamilyErrorResponse.FAMILY_NOT_FOUND))
+                        .toDomain())
+                .toList();
+    }
+
+    /**
      * 특정 계정이 특정 가족의 구성원인지 확인하는 메서드
      * @param familyId 가족 id
      * @param accountId 계정 id

@@ -51,15 +51,13 @@ public class FamilyCommandService {
      * 가족에 참여함과 동시에 사용자를 가족 구성원으로 등록한다.
      * @param familyRole 구성원 역할 정보
      * @param account 가족 구성원 정보
-     * @return {@link FamilyRole}
      */
-    public FamilyRole joinFamily(FamilyRole familyRole, Account account) {
+    public void joinFamily(FamilyRole familyRole, Account account) {
         final RoleEntity roleEntity = roleCommandRepository.save(RoleEntity.from(familyRole));
         familyAccountCommandRepository.save(FamilyAccountEntity
                 .from(FamilyAccount.create(
                         familyRole.getFamilyId(),
                         account.getId()
                 )));
-        return roleEntity.toFamilyRole();
     }
 }

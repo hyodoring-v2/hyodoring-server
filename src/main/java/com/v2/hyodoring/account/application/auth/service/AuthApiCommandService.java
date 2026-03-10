@@ -23,6 +23,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -52,6 +54,7 @@ public class AuthApiCommandService {
         final String refreshToken = jwtProvider.generateRefreshToken(account.getId(), account.getNickname(), accountRole);
         return AccountTokenResponse.of(
                 account.getId(),
+                familyQueryService.getJoinedFamilyList(account.getId()).stream().map(Family::getId).toList(),
                 account.getNickname(),
                 accessToken,
                 refreshToken
@@ -88,15 +91,17 @@ public class AuthApiCommandService {
         ));
 
         // 신규 가족 생성 or 기존 가족 참여
+        final Family family;
         if (familyQueryService.existsByFamilyCode(familyCode)) {
-            final Family family = familyQueryService.findByFamilyCode(familyCode);
+            family = familyQueryService.findByFamilyCode(familyCode);
             familyCommandService.joinFamily(FamilyRole.create(account.getId(), family.getId(), role), account);
         } else {
-            familyCommandService.generateFamily(Family.create(familyCode), role, account);
+            family = familyCommandService.generateFamily(Family.create(familyCode), role, account);
         }
 
         return AccountTokenResponse.of(
                 account.getId(),
+                List.of(family.getId()),
                 account.getNickname(),
                 accessToken,
                 refreshToken
