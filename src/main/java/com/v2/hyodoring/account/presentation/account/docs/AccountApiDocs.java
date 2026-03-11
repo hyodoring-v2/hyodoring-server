@@ -13,12 +13,5 @@ public interface AccountApiDocs {
             summary = "계정 프로필 조회",
             description = "인증된 사용자의 계정 프로필 정보를 조회합니다."
     )
-//    @ApiResponses({
-//            @ApiResponse(responseCode = "200", description = "성공적으로 계정 프로필을 조회했습니다."),
-//            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
-//            @ApiResponse(responseCode = "401", description = "인증되지 않은 사용자입니다,"),
-//            @ApiResponse(responseCode = "403", description = "권한이 없는 사용자입니다"),
-//            @ApiResponse(responseCode = "404", description = "계정을 찾을 수 없습니다"),
-//    })
     ResponseEntity<CustomResponse<AccountProfileResponse>> getProfile(AccountPrincipal principal);
 }
