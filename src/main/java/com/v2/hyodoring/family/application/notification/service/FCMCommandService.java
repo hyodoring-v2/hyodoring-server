@@ -24,9 +24,9 @@ public class FCMCommandService {
         return fcmTokenCommandRepository.save(FCMTokenEntity.from(fcmToken)).toDomain();
     }
 
-    public void sendMessage(Long accountId, String title, String body) {
+    public void sendMessage(Long receiverId, String title, String body) {
         // FCM Token 조회
-        final FCMToken fcmToken = fcmTokenQueryRepository.findByAccountIdAndDeviceType(accountId, DeviceType.ANDROID)
+        final FCMToken fcmToken = fcmTokenQueryRepository.findByAccountIdAndDeviceType(receiverId, DeviceType.ANDROID)
                     .orElseThrow(() -> new NotificationException(NotificationErrorResponse.FIREBASE_TOKEN_NOT_FOUND))
                 .toDomain();
         // 메시지 본문 생성

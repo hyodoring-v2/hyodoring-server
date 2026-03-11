@@ -47,7 +47,7 @@ public class GreetingApiCommandService {
         // 푸시알림 전송
         final String title = greetingRequest.getContent();
         final String body = generateGreetingBody(sender, title);
-        fcmCommandService.sendMessage(senderId, title, body);
+        fcmCommandService.sendMessage(receiver.getAccountId(), title, body);
 
         return GreetingRequestResponse.of(greeting, sender, receiver, title, body);
     }
