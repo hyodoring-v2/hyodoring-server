@@ -1,6 +1,7 @@
 package com.v2.hyodoring.account.infrastructure.jpa.auth.domain;
 
 import com.v2.hyodoring.account.core.auth.domain.AuthProvider;
+import com.v2.hyodoring.account.core.auth.domain.InternalAuthProvider;
 import com.v2.hyodoring.account.core.auth.domain.Provider;
 import com.v2.hyodoring.account.core.shared.domain.Env;
 import com.v2.hyodoring.account.infrastructure.jpa.base.domain.BaseEntity;
@@ -39,6 +40,16 @@ public class AuthProviderEntity extends BaseEntity {
 
     @Column(columnDefinition = "text", nullable = false)
     private String redirectUri;
+
+    public static AuthProviderEntity from(InternalAuthProvider internalAuthProvider) {
+        return AuthProviderEntity.builder()
+                .name(internalAuthProvider.provider())
+                .env(internalAuthProvider.env())
+                .clientId(internalAuthProvider.clientId())
+                .clientSecret(internalAuthProvider.clientSecret())
+                .redirectUri(internalAuthProvider.redirectUri())
+                .build();
+    }
 
     public AuthProvider toDomain() {
         return AuthProvider.of(id, name, env);

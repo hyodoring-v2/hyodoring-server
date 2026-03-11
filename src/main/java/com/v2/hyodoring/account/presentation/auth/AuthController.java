@@ -5,6 +5,7 @@ import com.v2.hyodoring.account.application.auth.service.AuthApiCommandService;
 import com.v2.hyodoring.account.core.auth.domain.Provider;
 import com.v2.hyodoring.account.application.base.BaseSuccessResponse;
 import com.v2.hyodoring.account.application.base.CustomResponse;
+import com.v2.hyodoring.account.presentation.auth.docs.AuthApiDocs;
 import com.v2.hyodoring.family.core.role.FamilyRoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
-public class AuthController {
+public class AuthController implements AuthApiDocs {
 
     private final AuthApiCommandService authApiCommandService;
 
